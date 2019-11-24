@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+    <div class="container-12">
+        <div class="jumbotron" style="background-color: #F75B39;">
+          <h1>Bootstrap Tutorial</h1>
+          <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing
+          responsive, mobile-first projects on the web.</p>
+        </div>
+      </div>
+      <div class="container">
+        <form action="/add" method="POST" id="taskForm" name="taskForm">
+            <div class="form-group" >
+              <label for="exampleInputEmail1">Task Title</label>
+              <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter title" name="title">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your task with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Description</label>
+              <textarea class="form-control" id="description" name="description" placeholder="Enter description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a id="clean" class="btn btn-secondary" style="color: white;">Clean</a>
+          </form>
+          <br>
+          <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <input class="form-control" type="text" name="search" id="search" placeholder="Search...">
+                    </div>
+                    <div class="col-md-6">
+                    <a id="searchButton" class="btn btn-success" style="color: white;">GO!</a>
+                    </div>   
+            </div>
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>TASK</th>
+                      <th>DESCRIPTION</th>
+                      <th></th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <TBOdy>
+                <%  if (tasks.length == 0) { %>
+                  <h3>THERE IS NOT TASKS TO SHOW</h3>                  
+                <%} else{ %>
+                 <% for(var i=0; i<tasks.length; i++) { %>
+                     <tr>
+                         <td><%=i+1%></td>
+                         <td><%=tasks[i].title%></td>
+                         <td><%=tasks[i].description%></td>
+                         <td> <a class="<%= tasks[i].status ? 'btn btn-success': 'btn btn-dark' %>" href="/change/<%=tasks[i]._id%>">DONE</a></td>
+                         <td><a class="btn btn-danger" id="delete" href="/delete/<%=tasks[i]._id%>">DELETE</a></td>
+                         <td></td>
+                     </tr>
+                 <% }} %>      
+              </TBOdy>
+          </table>
+      </div>
+</body>
+<script>
+  document.getElementById('title').focus();
+  document.getElementById('delete').addEventListener('click', function(e){
+    let resp = confirm('Are you sure you want to remove this task ?');
+    if(!resp) 
+    e.preventDefault();
+  });
+  document.getElementById('clean').addEventListener('click', function(e){
+    document.getElementById('taskForm').reset()
+  });
+  document.getElementById('searchButton').addEventListener('click', function(e){
+    let text = document.getElementById('search').value;
+    console.log(text);
+    window.location = 'http://localhost:3000/search/' + text;
+  });
+</script>
+</html>
